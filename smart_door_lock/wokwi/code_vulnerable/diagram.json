@@ -1,0 +1,37 @@
+{
+  "version": 1,
+  "author": "Flutter Gaming",
+  "editor": "wokwi",
+  "parts": [
+    { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": -9.6, "left": -129.56, "attrs": {} },
+    { "type": "wokwi-servo", "id": "servo1", "top": -251.6, "left": -115.2, "attrs": {} },
+    {
+      "type": "wokwi-lcd1602",
+      "id": "lcd1",
+      "top": -166.4,
+      "left": 82.4,
+      "attrs": { "pins": "i2c" }
+    },
+    { "type": "wokwi-membrane-keypad", "id": "keypad1", "top": -21.2, "left": 101.6, "attrs": {} }
+  ],
+  "connections": [
+    [ "esp:TX", "$serialMonitor:RX", "", [] ],
+    [ "esp:RX", "$serialMonitor:TX", "", [] ],
+    [ "servo1:GND", "esp:GND.2", "black", [ "h-67.2", "v105.6", "h144" ] ],
+    [ "servo1:V+", "esp:5V", "red", [ "h-48", "v384.1" ] ],
+    [ "servo1:PWM", "esp:15", "orange", [ "h-76.8", "v403.4", "h172.8", "v-57.6" ] ],
+    [ "lcd1:GND", "esp:GND.2", "black", [ "h-105.6", "v115.2" ] ],
+    [ "lcd1:VCC", "esp:5V", "red", [ "h-230.4", "v316.9" ] ],
+    [ "keypad1:R4", "esp:5", "yellow", [ "v38.4", "h-221", "v-249.6" ] ],
+    [ "keypad1:C1", "esp:17", "cyan", [ "v48", "h-163.3", "v-249.6" ] ],
+    [ "keypad1:C2", "esp:16", "cyan", [ "v57.6", "h-201.6", "v-249.6" ] ],
+    [ "keypad1:C3", "esp:4", "cyan", [ "v67.2", "h-201.75", "v-240", "h-76.8", "v-9.6" ] ],
+    [ "keypad1:C4", "esp:2", "cyan", [ "v76.8", "h-201.9", "v-240" ] ],
+    [ "keypad1:R1", "esp:23", "yellow", [ "v9.6", "h-172.8", "v-297.6" ] ],
+    [ "lcd1:SDA", "esp:21", "blue", [ "h-96", "v182.6" ] ],
+    [ "lcd1:SCL", "esp:22", "violet", [ "h-76.8", "v144.3" ] ],
+    [ "keypad1:R2", "esp:19", "yellow", [ "v19.2", "h-192.4", "v-249.6" ] ],
+    [ "keypad1:R3", "esp:18", "yellow", [ "v28.8", "h-221.1", "v-249.6" ] ]
+  ],
+  "dependencies": {}
+}

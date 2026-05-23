@@ -1,0 +1,310 @@
+[
+    {
+        "id": "74fbcf30aa60669d",
+        "type": "tab",
+        "label": "Smart Door Lock",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "14b16c2e39d5a0a7",
+        "type": "mqtt in",
+        "z": "74fbcf30aa60669d",
+        "name": "door/status",
+        "topic": "door/status",
+        "qos": "1",
+        "datatype": "utf8",
+        "broker": "540c8a236bbfbe5a",
+        "nl": false,
+        "rap": false,
+        "inputs": 0,
+        "x": 120,
+        "y": 160,
+        "wires": [
+            [
+                "8ee3b3579e8a41e2"
+            ]
+        ]
+    },
+    {
+        "id": "8ee3b3579e8a41e2",
+        "type": "function",
+        "z": "74fbcf30aa60669d",
+        "name": "Traitement statut",
+        "func": "var status = msg.payload;\nvar now = new Date();\nvar ts = now.toLocaleString('fr-FR');\n\nif (status === 'LOCK') status = 'LOCKED';\nif (status === 'UNLOCK') status = 'UNLOCKED';\n\n// msg1 : statut texte\nvar msg1 = { payload: status };\n\n// msg2 : alerte MQTT JSON\nvar alertPayload = JSON.stringify({\n  timestamp: now.toISOString(),\n  event: status === 'LOCKED' ? 'DOOR_LOCKED' : 'DOOR_UNLOCKED',\n  status: status,\n  message: status === 'LOCKED' ? 'Porte verrouillée' : 'ALERTE : Porte déverrouillée'\n});\nvar msg2 = { payload: alertPayload, topic: 'door/alert' };\n\n// msg3 : historique cumulatif\nvar logs = flow.get('alertLogs') || [];\nvar icon = status === 'LOCKED' ? '🔒' : '🔓';\nvar newEntry = '[' + ts + '] ' + icon + ' ' + status;\nlogs.unshift(newEntry);\nif (logs.length > 50) logs.pop();\nflow.set('alertLogs', logs);\nvar msg3 = { payload: logs };\n\n// msg4 : couleur LED\nvar msg4 = { payload: status === 'LOCKED' ? 'red' : 'green' };\n\nreturn [msg1, msg2, msg3, msg4];",
+        "outputs": 4,
+        "x": 340,
+        "y": 160,
+        "wires": [
+            [
+                "8dc8b0d38109a41c"
+            ],
+            [
+                "96cc5c51afaf4b4c"
+            ],
+            [
+                "7108a3ec8a4dabc8"
+            ],
+            [
+                "e170043782b3c1fd"
+            ]
+        ]
+    },
+    {
+        "id": "8dc8b0d38109a41c",
+        "type": "ui_text",
+        "z": "74fbcf30aa60669d",
+        "group": "grp_status",
+        "order": 1,
+        "width": "6",
+        "height": "2",
+        "name": "Statut texte",
+        "label": "État actuel",
+        "format": "<span style='font-size:24px;font-weight:bold'>{{msg.payload}}</span>",
+        "layout": "row-spread",
+        "x": 600,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "96cc5c51afaf4b4c",
+        "type": "mqtt out",
+        "z": "74fbcf30aa60669d",
+        "name": "door/alert",
+        "topic": "door/alert",
+        "qos": "1",
+        "retain": false,
+        "broker": "540c8a236bbfbe5a",
+        "x": 600,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "7108a3ec8a4dabc8",
+        "type": "ui_template",
+        "z": "74fbcf30aa60669d",
+        "group": "grp_log",
+        "name": "Historique alertes",
+        "order": 1,
+        "width": "12",
+        "height": "8",
+        "format": "<div style='background:#1e1e1e;border-radius:8px;padding:10px;height:220px;overflow-y:auto;font-family:monospace;font-size:13px;color:#e0e0e0'>\n  <div style='color:#90caf9;font-weight:bold;margin-bottom:8px;font-size:14px'>📋 Historique des alertes</div>\n  <div ng-if='!msg.payload || msg.payload.length === 0' style='color:#666;font-style:italic'>Aucune alerte enregistrée</div>\n  <div ng-repeat='log in msg.payload track by $index'\n       ng-style=\"{'color': log.indexOf('UNLOCKED') !== -1 ? '#66bb6a' : '#ef5350'}\"\n       style='padding:5px 4px;border-bottom:1px solid #333;line-height:1.5'>\n    {{log}}\n  </div>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": true,
+        "templateScope": "local",
+        "x": 620,
+        "y": 200,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "e170043782b3c1fd",
+        "type": "ui_led",
+        "z": "74fbcf30aa60669d",
+        "order": 2,
+        "group": "grp_status",
+        "width": "2",
+        "height": "2",
+        "label": "Indicateur",
+        "colorForValue": [
+            {
+                "color": "#e53935",
+                "value": "red",
+                "valueType": "str"
+            },
+            {
+                "color": "#43a047",
+                "value": "green",
+                "valueType": "str"
+            }
+        ],
+        "shape": "circle",
+        "showGlow": true,
+        "name": "LED",
+        "x": 780,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "cc64b7cb1aec1828",
+        "type": "ui_button",
+        "z": "74fbcf30aa60669d",
+        "name": "Bouton UNLOCK",
+        "group": "grp_ctrl",
+        "order": 1,
+        "width": "0",
+        "height": "0",
+        "passthru": false,
+        "label": "🔓 DÉVERROUILLER",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#43a047",
+        "className": "",
+        "icon": "lock_open",
+        "payload": "UNLOCK",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "x": 120,
+        "y": 300,
+        "wires": [
+            [
+                "e87be1cd1155e8af"
+            ]
+        ]
+    },
+    {
+        "id": "b0c0bdc2d2684633",
+        "type": "ui_button",
+        "z": "74fbcf30aa60669d",
+        "name": "Bouton LOCK",
+        "group": "grp_ctrl",
+        "order": 2,
+        "width": "0",
+        "height": "0",
+        "passthru": false,
+        "label": "🔒 VERROUILLER",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "#e53935",
+        "className": "",
+        "icon": "lock",
+        "payload": "LOCK",
+        "payloadType": "str",
+        "topic": "",
+        "topicType": "str",
+        "x": 120,
+        "y": 340,
+        "wires": [
+            [
+                "e87be1cd1155e8af"
+            ]
+        ]
+    },
+    {
+        "id": "e87be1cd1155e8af",
+        "type": "mqtt out",
+        "z": "74fbcf30aa60669d",
+        "name": "door/command",
+        "topic": "door/command",
+        "qos": "1",
+        "retain": false,
+        "broker": "540c8a236bbfbe5a",
+        "x": 360,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "68fa4826c15c0142",
+        "type": "inject",
+        "z": "74fbcf30aa60669d",
+        "name": "🔁 Initialisation",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.5,
+        "topic": "",
+        "payload": "UNLOCKED",
+        "payloadType": "str",
+        "x": 120,
+        "y": 100,
+        "wires": [
+            [
+                "8ee3b3579e8a41e2"
+            ]
+        ]
+    },
+    {
+        "id": "540c8a236bbfbe5a",
+        "type": "mqtt-broker",
+        "name": "EMQX Cloud TLS",
+        "broker": "yf4fb665.ala.eu-central-1.emqxsl.com",
+        "port": "8883",
+        "tls": "6af567559757d27d",
+        "clientid": "nodered_door_tls",
+        "autoConnect": true,
+        "usetls": true,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "autoUnsubscribe": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthRetain": "true",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "userProps": "",
+        "sessionExpiry": ""
+    },
+    {
+        "id": "grp_status",
+        "type": "ui_group",
+        "name": "État de la porte",
+        "tab": "ui_tab1",
+        "order": 1,
+        "disp": true,
+        "width": "6"
+    },
+    {
+        "id": "grp_log",
+        "type": "ui_group",
+        "name": "Historique alertes",
+        "tab": "ui_tab1",
+        "order": 3,
+        "disp": true,
+        "width": "12"
+    },
+    {
+        "id": "grp_ctrl",
+        "type": "ui_group",
+        "name": "Contrôle",
+        "tab": "ui_tab1",
+        "order": 2,
+        "disp": true,
+        "width": "6"
+    },
+    {
+        "id": "6af567559757d27d",
+        "type": "tls-config",
+        "name": "TLS Sans vérif",
+        "cert": "",
+        "key": "",
+        "ca": "",
+        "certname": "",
+        "keyname": "",
+        "caname": "",
+        "servername": "",
+        "verifyservercert": false,
+        "alpnprotocol": ""
+    },
+    {
+        "id": "ui_tab1",
+        "type": "ui_tab",
+        "name": "Door Lock",
+        "icon": "lock",
+        "order": 1
+    },
+    {
+        "id": "9be000e7b6fa441e",
+        "type": "global-config",
+        "env": [],
+        "modules": {
+            "node-red-dashboard": "3.6.6",
+            "node-red-contrib-ui-led": "0.4.11"
+        }
+    }
+]
