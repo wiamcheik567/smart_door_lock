@@ -16,10 +16,10 @@
 #endif
 
 #ifndef MQTT_BROKER
-  #define MQTT_BROKER   "yf4fb665.ala.eu-central-1.emqxsl.com"
+  #define MQTT_BROKER   ""
   #define MQTT_PORT     8883
-  #define MQTT_USER     "smart_lock"
-  #define MQTT_PASS     "IoT2000****"
+  #define MQTT_USER     ""
+  #define MQTT_PASS     ""
 #endif
 
 #define TOPIC_STATUS  "door/status"
