@@ -12,14 +12,14 @@
 const char* WIFI_SSID     = "Wokwi-GUEST"; 
 const char* WIFI_PASSWORD = "";          
 // ── EMQX Cloud (MQTT over TLS) Configuration ────────────────────────
-const char* MQTT_BROKER   = "yf4fb665.ala.eu-central-1.emqxsl.com";
+const char* MQTT_BROKER   = "";
 const int   MQTT_PORT     = 8883;
 const char* TOPIC_STATUS  = "door/status";
 const char* TOPIC_COMMAND = "door/command";
 
 
-const char* MQTT_USER = "smart_lock";
-const char* MQTT_PASS = "IoT2000****"; 
+const char* MQTT_USER = "";
+const char* MQTT_PASS = ""; 
 
 WiFiClientSecure wifiClient;
 PubSubClient     mqttClient(wifiClient);
