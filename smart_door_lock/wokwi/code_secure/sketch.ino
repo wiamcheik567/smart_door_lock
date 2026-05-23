@@ -179,7 +179,7 @@ void servoUnlock();
 // ────────────────────────────────────────────────────────────────
 void setup() {
   Serial.begin(115200);
-  Serial.println("\n[BOOT] Smart Lock v2.6 - Fixed Timestamp");
+  Serial.println("\n[BOOT] Smart Lock v2");
 
   initHardware();
   initPasswordSystem();
