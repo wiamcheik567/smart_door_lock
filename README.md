@@ -8,23 +8,23 @@
 
 ```
 smart_door_lock/
- wokwi/
-�    code_vulnerable/       # Version non sécurisée (démonstration d'attaques)
-�   �    sketch.ino
-�   �    diagram.json
-�   �    libraries.txt
-�   �    wokwi-project.txt
-�    code_secure/           # Version sécurisée (contre-mesures implémentées)
-�        sketch.ino
-�        diagram.json
-�        libraries.txt
-�        wokwi-project.txt
- scripts/
-�    flooding.py            # Attaque : maintien forcé de la porte ouverte
-�    mqtt_replay_attack.py  # Attaque : rejeu de commandes MQTT
-�    generation_nonce.py    # Client sécurisé avec nonces cryptographiques
- nodered/
-     flows.json             # Dashboard Node-RED (surveillance & contrôle)
+-- wokwi/
+   -- code_vulnerable/       # Version non securisee (demonstration d'attaques)
+      -- sketch.ino
+      -- diagram.json
+      -- libraries.txt
+      -- wokwi-project.txt
+   -- code_secure/           # Version securisee (contre-mesures implementees)
+      -- sketch.ino
+      -- diagram.json
+      -- libraries.txt
+      -- wokwi-project.txt
+-- scripts/
+   -- flooding.py            # Attaque : maintien force de la porte ouverte
+   -- mqtt_replay_attack.py  # Attaque : rejeu de commandes MQTT
+   -- generation_nonce.py    # Client securise avec nonces cryptographiques
+-- nodered/
+   -- flows.json             # Dashboard Node-RED (surveillance & controle)
 ```
 
 ---
