@@ -16,10 +16,10 @@
 #endif
 
 #ifndef MQTT_BROKER
-  #define MQTT_BROKER   ""
+  #define MQTT_BROKER   "url"
   #define MQTT_PORT     8883
-  #define MQTT_USER     ""
-  #define MQTT_PASS     ""
+  #define MQTT_USER     "username"
+  #define MQTT_PASS     "password"
 #endif
 
 #define TOPIC_STATUS  "door/status"
