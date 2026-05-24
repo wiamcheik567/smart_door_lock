@@ -3,10 +3,10 @@ import time
 import ssl
 
 # Configuration MQTT (à adapter avec les informations de votre projet Wokwi)
-MQTT_BROKER = "yf4fb665.ala.eu-central-1.emqxsl.com"
+MQTT_BROKER = ""
 MQTT_PORT = 8883
-MQTT_USER = "smart_lock"
-MQTT_PASS = "IoT2000****" # Remplacez par le vrai mot de passe de votre projet
+MQTT_USER = ""
+MQTT_PASS = "" # Remplacez par le vrai mot de passe de votre projet
 TOPIC_COMMAND = "door/command"
 
 # Message à rejouer
