@@ -16,10 +16,10 @@ import argparse
 import paho.mqtt.client as mqtt
 
 # ── CONFIGURATION ───────────────────────────────────────────────
-BROKER     = "yf4fb665.ala.eu-central-1.emqxsl.com"
+BROKER     = ""
 PORT       = 8883
-USERNAME   = "smart_lock"
-PASSWORD   = "IoT2000****"  # ⚠️ À modifier si vous changez le mot de passe
+USERNAME   = ""
+PASSWORD   = ""  # ⚠️ À modifier si vous changez le mot de passe
 TOPIC_CMD  = "door/command"
 TOPIC_STAT = "door/status"
 TOPIC_ALERT= "door/alert"
