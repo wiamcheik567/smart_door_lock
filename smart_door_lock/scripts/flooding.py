@@ -4,10 +4,10 @@
 import paho.mqtt.client as mqtt
 import time
 
-BROKER       = "yf4fb665.ala.eu-central-1.emqxsl.com"
+BROKER       = ""
 PORT         = 8883
-USER         = "smart_lock"
-PASS         = "IoT2000****"
+USER         = ""
+PASS         = ""
 TOPIC_STATUS = "door/status"
 TOPIC_CMD    = "door/command"
 
