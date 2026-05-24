@@ -225,7 +225,7 @@
         "id": "540c8a236bbfbe5a",
         "type": "mqtt-broker",
         "name": "EMQX Cloud TLS",
-        "broker": "yf4fb665.ala.eu-central-1.emqxsl.com",
+        "broker": "",
         "port": "8883",
         "tls": "6af567559757d27d",
         "clientid": "nodered_door_tls",
